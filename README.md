@@ -1,6 +1,5 @@
 ![](https://kdwnil.ml/favicon.ico)
 # twitter-to-tieba
 把指定用户的推特转发到贴吧<br />
-教程：首先打开index.php编辑有注释的行的数据，然后把index.php丢进cron里面<br />
-下一版本将支持已发过的内容不再重复发送<br />
-来自[KDWNIL](https://kdwnil.ml)
+现已支持翻译(不完美),转推(支持转任何推特用户的推到任何贴吧的任何帖子里面),自动写入log,无需数据库(数据库版待开发),检查cookie完整性<br />
+来自[KDWNIL开发者](https://kdwnil.ml)
