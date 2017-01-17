@@ -40,7 +40,16 @@ $t = $from.'
 '.$link.'
 '.$time;
 if(strlen($t)>0){
-$tr='text_to_translate='.str_replace("\n"," ",$textold).'&source_lang=ja&translated_lang=zh&use_cache_only=false';
+$getlanguage='text_to_translate='.$text;
+$gl = curl_init('https://www.translate.com/translator/ajax_lang_auto_detect');
+curl_setopt($gl,CURLOPT_RETURNTRANSFER,1);
+curl_setopt($gl, CURLOPT_REFERER,'https://www.translate.com/');
+curl_setopt($gl, CURLOPT_POST,1);
+curl_setopt($gl, CURLOPT_POSTFIELDS,"$getlanguage");
+$languagejson = curl_exec($gl);
+curl_close($gl);
+$language=json_decode($languagejson,1)["language"];
+$tr='text_to_translate='.str_replace("\n"," ",$textold).'&source_lang='.$language.'&translated_lang=zh&use_cache_only=false';
 $bdtr = curl_init('https://www.translate.com/translator/ajax_translate');
 curl_setopt($bdtr,CURLOPT_RETURNTRANSFER,1);
 curl_setopt($bdtr, CURLOPT_REFERER,'https://www.translate.com/');
