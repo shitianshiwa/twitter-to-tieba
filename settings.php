@@ -1,5 +1,6 @@
 <?
 $cookie='';
+/*兼容吧务申请插件*/
 $realname = urlencode('');//真实姓名
 $province =urlencode('');//所在省份
 $city = urlencode('');//所在城市
