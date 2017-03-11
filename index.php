@@ -51,7 +51,7 @@ if(strlen($translate)>0){
 $data = 'co='.$name.':'.$text.'
 翻译:'.str_replace("@","@ ",str_replace("t.co"," * ",str_replace("goo.gl","*",str_replace("\n"," ",str_replace("&"," ",str_replace(">"," ",str_replace("<"," ",str_replace("'"," ",str_replace('"',' ',$translate))))))))).'
 '.$pic.'
-&_t=1484059982471&tag=11&upload_img_info='.${$name}.'&fid='.$fid.'&src=1&word='.$tbn.'&tbs='.$tbs.'&z='.$tid;
+&_t=1484059982471&tag=11&upload_img_info=&fid='.$fid.'&src=1&word='.$tbn.'&tbs='.$tbs.'&z='.$tid;
 $ch = curl_init($url);
 curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Mobile Safari/537.36');
 curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
