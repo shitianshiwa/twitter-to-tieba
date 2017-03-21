@@ -12,7 +12,7 @@ $use_Google_Translate = true;
 // 回贴客户端 0:WAP|1:iPhone|2:Android|3:WindowsPhone|4:Windows8UWP 默认随机
 $reply_devices = rand(0, 4);
 // iPhone回贴秒吞
-$reply_devices = $reply_devices == 1 ? 0 : $reply_devices;
+$reply_devices = $reply_devices == 1 ? rand(2, 4) : $reply_devices;
 $_GET['twitter'] = urlencode($_GET['twitter']);
 $_GET['tid'] = (int)($_GET['tid']);
 
@@ -94,14 +94,14 @@ foreach ($tweets as $tweet) {
         echo "Should post reply about Tweet({$tweet_id}) with content {$tweet_content} on tieba forum {$_GET['tieba']} with thread id {$_GET['tid']} via wap post port" . (isset($translate_result) ? ', using Google Translate Service' : null) ."\r\n";
         $reply_content = "用户名：@{$_GET['twitter']}\r\n推文：{$tweet_content}\r\n" . (isset($translate_result) ? "翻译：{$translate_result}\r\n" : null) . "推文链接：https://twitter.com/{$_GET['twitter']}/status/{$tweet_id}";
         $reply_result = post_reply($tieba_bduss, $tbs, $reply_devices, $_GET['tid'], $fid, $_GET['tieba'], $reply_content);
-        if ($reply_result['no'] == 0) {
+        if ($reply_result[$reply_devices == 0 ? 'no' : 'error_code'] == 0) {
             echo 'successful posted';
             $tweet_log = fopen("{$_GET['twitter']}_posted.csv", 'a');
             flock($tweet_log, LOCK_EX);
-            fputcsv($tweet_log, "{$tweet_id}\r\n");
+            fwrite($tweet_log, "\"{$tweet_id}\",\r\n");
             fclose($tweet_log);
         } else {
-            echo "reply failed, error code:{$reply_result['no']}, reason: {$reply_result['error']}";
+            echo "reply failed, error code:{$reply_result[$reply_devices == 0 ? 'no' : 'error_code']}, reason: {$reply_result[$reply_devices == 0 ? 'error' : 'msg']}";
         }
         $reply_log = [
             'reply_time' => date(DATE_ISO8601),
@@ -116,6 +116,6 @@ foreach ($tweets as $tweet) {
         flock($reply_log_file, LOCK_EX);
         fwrite($reply_log_file, json_encode($reply_log, JSON_UNESCAPED_UNICODE) . "\r\n");
         fclose($reply_log_file);
-        sleep(1000);
+        //sleep(1000);
     }
 }
