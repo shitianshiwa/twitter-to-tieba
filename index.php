@@ -11,6 +11,8 @@ $tieba_bduss = '';
 $use_Google_Translate = true;
 // 回贴客户端 0:WAP|1:iPhone|2:Android|3:WindowsPhone|4:Windows8UWP 默认随机
 $reply_devices = rand(0, 4);
+// iPhone回贴秒吞
+$reply_devices = $reply_devices == 1 ? 0 : $reply_devices;
 $_GET['twitter'] = urlencode($_GET['twitter']);
 $_GET['tid'] = (int)($_GET['tid']);
 
