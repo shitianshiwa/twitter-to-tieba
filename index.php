@@ -1,8 +1,6 @@
 <?php
 ini_set('display_errors', 'On');
-ini_set('max_execution_time', 0);
-//ignore_user_abort(true);
-require_once ('src/GoogleTranslate.php');
+require 'src/GoogleTranslate.php';
 use \Statickidz\GoogleTranslate;
 
 // 百度账号BDUSS Cookie
@@ -17,7 +15,7 @@ $_GET['twitter'] = urlencode($_GET['twitter']);
 $_GET['tid'] = (int)($_GET['tid']);
 
 function post_reply($bduss, $tbs, $devices, $tid, $fid, $tieba, $content) {
-    if ($devices == 'WAP') {
+    if ($devices == 0) {
         // WAP回贴
         $post_data = [
             'co' => $content,
@@ -116,6 +114,6 @@ foreach ($tweets as $tweet) {
         flock($reply_log_file, LOCK_EX);
         fwrite($reply_log_file, json_encode($reply_log, JSON_UNESCAPED_UNICODE) . "\r\n");
         fclose($reply_log_file);
-        //sleep(1000);
+        sleep(1);
     }
 }
