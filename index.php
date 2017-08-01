@@ -13,7 +13,7 @@ preg_match_all('/<div[^>]*?>(.[\s\S]*?)<\/div>/u',$api,$kd1);
 preg_match_all('/<div class="tweet-text" data-id="(.+?)">/u',$api,$kd2);
 $text=chop(str_replace("twitter"," * ",str_replace("goo.gl"," * ",str_replace("@","@ ",strip_tags($kd1[1][8])))));
 $tweetid=$kd2[1][0];
-$check=file($name.'.txt')[0];
+$check=file(dirname(__FILE__).'/db/'.$name.'.txt')[0];
 if ($tweetid>$check){
 	if (strlen($text)>0){
 		$language=json_decode(scurl('https://www.translate.com/translator/ajax_lang_auto_detect',1,'text_to_translate='.urlencode($text),'','https://www.translate.com/'),1)["language"];
@@ -21,7 +21,7 @@ if ($tweetid>$check){
 		if (strlen($translate)>0){
 			$data='co='.$name.':'.htmlentities(urlencode($text))."\n".'翻译:'.urlencode($translate).'&_t=1484059982471&tag=11&upload_img_info=&fid='.$fid.'&src=1&word='.$tbn.'&tbs='.$tbs.'&z='.$tid;
 			$a=json_decode(scurl('https://tieba.baidu.com/mo/q/apubpost',1,$data,$cookie,'http://tieba.baidu.com/p/'.$tid.'?pn=0&'),1);
-			$log=fopen('log.txt',"a");
+			$log=fopen(dirname(__FILE__).'/db/'.'log.txt',"a");
 			flock($log,LOCK_EX);
 			fwrite($log,'['.time().','.json_encode($a).','.$name.','.$text.','.$translate.']'."\r\n");
 			fclose($log,LOCK_UN);
@@ -30,7 +30,7 @@ if ($tweetid>$check){
 			}else {
 				echo '发送成功';
 			}
-			$fp=fopen($name.'.txt',"w");
+			$fp=fopen(dirname(__FILE__).'/db/'.$name.'.txt',"w");
 			flock($fp,LOCK_EX);
 			fwrite($fp,$tweetid);
 			fclose($fp,LOCK_UN);
