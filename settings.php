@@ -1,3 +1,4 @@
 <?php
 $bduss='';//填入bduss
-$cookie='BDUSS='.$bduss;//这行不用管
+$stoken='';//填入stoken
+$cookie='BDUSS='.$bduss.'STOKEN='.$stoken;//这行不用管
