@@ -3,6 +3,9 @@ header("Content-type: text/html; charset=utf-8");
 ignore_user_abort(true);
 require dirname(__FILE__).'/settings.php';
 require dirname(__FILE__).'/scurl.php';
+if(file_exists('db')!=1){
+    mkdir('db');
+}
 $name=urlencode($argv[1]);//urlencode($_GET['name']);
 if(strlen($name)<=0){
     echo 'id不得为空';
