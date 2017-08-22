@@ -28,7 +28,7 @@ if ($tweetid > $check){
 		    $translate=json_decode(scurl('https://www.translate.com/translator/ajax_translate',1,'text_to_translate='.urlencode($text).'&source_lang='.$language.'&translated_lang='.$la.'&use_cache_only=false','','https://www.translate.com/',1),1)["translated_text"];
 		    $tr='翻译:'.chop(urlencode(htmlentities(str_replace(array("goo.gl","twitter","google","人们致以","「","」")," * ",$translate),ENT_DISALLOWED,'UTF-8',0)))."\n";
 		if (strlen($translate)>0){
-			$data='co='.$kd3[1].'(@'.$name.')：'."\n".urlencode(htmlentities($text,ENT_DISALLOWED,'UTF-8',0))."\n".$tr."\n".'&_t=1484059982471&tag=11&upload_img_info='.${$name}.'&fid='.$fid.'&src=1&word='.$tbn.'&tbs='.$tbs.'&z='.$tid;
+			$data='co='.$kd3[1].'(@'.$name.')：'."\n".urlencode(htmlentities($text,ENT_DISALLOWED,'UTF-8',0))."\n".$tr."\n".'&_t=1484059982471&tag=11&upload_img_info=&fid='.$fid.'&src=1&word='.$tbn.'&tbs='.$tbs.'&z='.$tid;
 			$a=json_decode(scurl('https://tieba.baidu.com/mo/q/apubpost',1,$data,$cookie,'http://tieba.baidu.com/p/'.$tid.'?pn=0&',1),1);
 			$log=fopen(dirname(__FILE__).'/db/log.txt',"a");
 			flock($log,LOCK_EX);
