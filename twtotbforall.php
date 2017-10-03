@@ -39,8 +39,8 @@ if ($tweetid > $check){
 			
 			$a=scurl('http://tieba.baidu.com/mo/q---116ED871A6E72C4C43D64EF10253A2CA%3AFG%3D1--1-3-0--2--wapp_1507042257801_296/submit',1,$data,$cookie,'http://tieba.baidu.com/mo/q---116ED871A6E72C4C43D64EF10253A2CA%3AFG%3D1--1-3-0--2--wapp_1507042257801_296/m?kz='.$tid.'&is_bakan=0&lp=5010&pinf=1_2_0',1);
 			if (!preg_match('/<span class=\"light\">回贴成功<\/span>/',$a)){
-			    preg_match('/<div class=\"d\">未知错误,请返回重试<\/div>',$a,$whyerror);
-			    $result='错误原因：'.$whyerror[0];
+			    //preg_match('/<div class=\"d\">未知错误,请返回重试<\/div>',$a,$whyerror);
+			    $result='发送失败';
 			}else {
 				$result='发送成功';
 			}
