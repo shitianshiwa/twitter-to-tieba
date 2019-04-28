@@ -9,8 +9,8 @@ $tieba_users = [
         'bduss' => '', // 百度账号BDUSS Cookie
         // 回贴客户端 0:WAP|1:iPhone|2:Android|3:WindowsPhone|4:Windows8UWP
         // 随机或固定客户端二选一
-        'reply_device' = rand(0, 4) // 随机
-        //'reply_device' = 0 // 固定
+        'reply_device' => rand(0, 4) // 随机
+        //'reply_device' => 0 // 固定
     ],
 ];
 
@@ -23,7 +23,7 @@ $tieba_user = $tieba_users[$_GET['username']];
 
 $curl_mobile_device_ua = 'Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Mobile Safari/537.36';
 
-function post_reply(string $bduss, string $tbs, int $devices, int $tid, int $fid, string $tieba, string $content): string {
+function post_reply(string $bduss, string $tbs, int $devices, int $tid, int $fid, string $tieba, string $content): array {
     if ($devices == 0) {
         // WAP回贴
         $post_data = [
@@ -108,7 +108,7 @@ $tw_is_topic = substr($_GET["twitter"], 0, 1) == '#' ? true : false;
 if ($tw_is_topic) {
     $tw_update_check_json = json_decode(file_get_contents('https://twitter.com/i/search/timeline?q=' . urlencode($_GET["twitter"]) . "&latent_count=1&min_position={$tweets_posted[0]}"), true);
 } else {
-    $tw_update_check_json = json_decode(file_get_contents("https://twitter.com/i/profiles/show/{$_GET["twitter"]}timeline/tweets?composed_count=0&include_available_features=0&include_entities=0&include_new_items_bar=true&interval=30000&latent_count=0&min_position={$tweets_posted[0]}"), true);
+    $tw_update_check_json = json_decode(file_get_contents("https://twitter.com/i/profiles/show/{$_GET["twitter"]}/timeline/tweets?composed_count=0&include_available_features=0&include_entities=0&include_new_items_bar=true&interval=30000&latent_count=0&min_position={$tweets_posted[0]}"), true);
 }
 if ($tw_update_check_json["new_latent_count"] > 0) {
     preg_match('/gt=([0-9]*);/', get_from_mobile_twitter('https://mobile.twitter.com/'), $tw_guest_token);
@@ -174,7 +174,7 @@ if ($tw_update_check_json["new_latent_count"] > 0) {
                 'tweet_content' => str_replace(["\r\n", "\n"], '', $tweet_content),
                 'reply_content' => $reply_content,
                 'reply_device' => $tieba_user['reply_device'],
-                'reply_result' => implode(' ', $reply_result)
+                'reply_result' => json_encode($reply_result, JSON_UNESCAPED_UNICODE)
             ];
             $reply_log_file = fopen('reply_log.json', 'a');
             flock($reply_log_file, LOCK_EX);
